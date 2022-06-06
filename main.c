@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
 typedef int *image;
 
 image leImage(char *nome, int *nl, int *nc, int *mn){
@@ -38,7 +41,7 @@ void salvaImage(char *nome, image *img, int nl, int nc, int mn){
 
 void operacao (image img, int nl, int nc, int mn){
 	for (int i =0; i< nl*nc; i++){
-		img[i]= mn - img[i];
+		img[i]= log(img[i]+1) / log(mn+1)*mn;
 	}
 }
 
@@ -47,6 +50,6 @@ int main(void) {
 	int nl, nc, mn;
 	in=leImage("img.txt", &nl, &nc, &mn);
 	operacao(in, nl, nc, mn);
-	salvaImage("img-operacao", &in, nl, nc, mn);
+	salvaImage("img-operacao", in, nl, nc, mn);
   return 0;
 }

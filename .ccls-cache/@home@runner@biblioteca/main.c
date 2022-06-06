@@ -14,7 +14,7 @@ image leImage(char *nome, int *nl, int *nc, int *mn){
 	fscanf(arq, "%d %d", nc, nl);
 	fscanf(arq, "%d", mn);
 	size = (*nc)*(*nl);
-	printf("%d %d", *nl, *nc);
+	//printf("%d %d", *nl, *nc);
 	img = malloc(size * sizeof(int));
 	for(int i =0; i<size; i++){
 		fscanf (arq, "%d", img + 1);
@@ -40,16 +40,35 @@ void salvaImage(char *nome, image img, int nl, int nc, int mn){
 }
 
 void operacao (image img, int nl, int nc, int mn){
-	for (int i =0; i< nl*nc; i++){
-		img[i]= pow(img[i], 2) / pow(mn,2)*mn;
+	float T[mn+1];
+
+	for(int i=0; i<=mn; i++){
+		T[i]=log(i+1) / log (mn +1) *mn;
 	}
+	for (int i =0; i< nl*nc; i++){
+		//img[i]= pow(img[i], 2) / pow(mn,2)*mn;
+		//img[i]=T[img[i]];
+		if(img[i] <=100){
+			img[i] = 0;
+		}else{
+			img[i] = 255;
+		}
+	}
+	
 }
 
-int main(void) {
+int main(int argc, char *argv[]) {
+	char nome[100] = "img.pgm";
+	char cmd[100]="eog ";
   image in;
 	int nl, nc, mn;
-	in=leImage("img.txt", &nl, &nc, &mn);
+	if(argc>1){
+		strcpy (nome, argv[1]);
+	}
+	in=leImage(nome, &nl, &nc, &mn);
 	operacao(in, nl, nc, mn);
-	salvaImage("img-operacao", in, nl, nc, mn);
-  return 0;
+	strcat (nome, "-saida.pgm");
+	salvaImage(nome, in, nl, nc, mn);
+	strcat(cmd, nome);
+	//system("eog img-operacao.pgm"); //ao executar ja abre o visualizador
 }

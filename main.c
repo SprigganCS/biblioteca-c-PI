@@ -23,7 +23,7 @@ image leImage(char *nome, int *nl, int *nc, int *mn){
 }
 
 
-void salvaImage(char *nome, image *img, int nl, int nc, int mn){
+void salvaImage(char *nome, image img, int nl, int nc, int mn){
 	FILE *arq;
 	int conta;
 	arq = fopen(nome, "wt");
@@ -31,7 +31,7 @@ void salvaImage(char *nome, image *img, int nl, int nc, int mn){
 	fprintf(arq, "%d %d\n", nc, nl);
 	fprintf(arq, "%d\n", mn);
 	for(int i =0; i<nl*nc; i++){
-		fprintf(arq, "%3d", *img[i]);
+		fprintf(arq, "%3d", img[i]);
 		conta++;
 		if((conta % 20)==0){
 			fprintf(arq, "\n");
@@ -41,7 +41,7 @@ void salvaImage(char *nome, image *img, int nl, int nc, int mn){
 
 void operacao (image img, int nl, int nc, int mn){
 	for (int i =0; i< nl*nc; i++){
-		img[i]= log(img[i]+1) / log(mn+1)*mn;
+		img[i]= pow(img[i], 2) / pow(mn,2)*mn;
 	}
 }
 
